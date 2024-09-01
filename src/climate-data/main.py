@@ -10,3 +10,4 @@ from climate_data import ClimateData
 
 dataset = ClimateData(url=url, key=key)
 dataset.run()
+dataset.save_data()

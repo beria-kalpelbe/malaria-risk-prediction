@@ -32,7 +32,7 @@ class ClimateData:
             month:str, 
             day:str, 
             time:str, 
-            area=[35, -20, -35, 50], 
+            area=[23.5, 13.5, 7.0, 24.0], #[35, -20, -35, 50], 
             format='netcdf', 
             filename='data.nc'
         ):
@@ -70,15 +70,15 @@ class ClimateData:
             month:str, 
             day:str, 
         ):
-        for time in [f"{hour:02d}:00" for hour in range(0,24)]:
-            self._extract_data_time(
+        # for time in [f"{hour:02d}:00" for hour in range(0,24)]:
+        self._extract_data_time(
                 variable_name=variable_name,
                 variable_code=variable_code,
                 year=year,
                 month=month,
                 day=day,
-                time=time
-            )
+                time='12:00' #time
+        )
     
     def _extract_data_month(
         self,
@@ -87,15 +87,15 @@ class ClimateData:
         year:str,
         month:str
     ):
-        for day in range(1, self._get_number_of_days(year=int(year), month=int(month))+1):
-            self._extract_data_day(
+        # for day in range(1, self._get_number_of_days(year=int(year), month=int(month))+1):
+        self._extract_data_day(
                 variable_name=variable_name,
                 variable_code=variable_code,
                 year=year,
                 month=month,
-                day=f"{day:02d}"
-            )
-        print(f"\n\n===============Extracted data for {variable_name} in {year}-{month}\n\n=====================")
+                day=f"{15:02d}"
+        )
+        print(f"\n\n===============Extracted data for year:{year} and month:{month}=====================\n\n")
     
     def _extract_data_year(
         self,
@@ -115,7 +115,7 @@ class ClimateData:
         self,
         variable_name:str,
         variable_code:str,
-        years=['2024'], # min=1940, max=2024
+        years:list[str], # min=1940, max=2024
     ):
         for year in years:
             self._extract_data_year(
@@ -136,7 +136,7 @@ class ClimateData:
             self._extract_data(
                 variable_name=variables_names[i],
                 variable_code=variables_codes[i],
-                years=['2023'], # min=1940, max=2023
+                years=[str(yr) for yr in range(2000,2025)], # min=1940, max=2023
             )
     
     def _save_data(self, file_path:str="../../data/data.pkl"):
