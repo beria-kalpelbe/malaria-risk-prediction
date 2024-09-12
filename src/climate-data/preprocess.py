@@ -21,7 +21,7 @@ def aggregate_data(data_raster, var_name, time, data, map_data):
                     if point.within(map_data.geometry[index]):
                         x, y = np.where(vars.latitude.values == lat.values.item())[0][0], np.where(vars.longitude.values == lon.values.item())[0][0]
                         var.append(vars.values[x, y].item())
-            data.loc[index, var_name] = np.mean(var).item() - 273.15 # Convert to Celsius
+            data.loc[index, var_name] = np.mean(var).item()
         return data
     
 map_data = gpd.read_file('../../data/chadgeodata/geoBoundaries-TCD-ADM1-all/geoBoundaries-TCD-ADM1.geojson')
@@ -39,6 +39,8 @@ for time in tqdm(original_climate_data.valid_time, desc="Aggregating climate dat
     climate_data = aggregate_data(original_climate_data, 'lai_hv', str(time.values), climate_data, map_data)
     climate_data = aggregate_data(original_climate_data, 'lai_lv', str(time.values), climate_data, map_data)
     climate_data['time'] = [str(time.values).split('T')[0]]*23
+    climate_data['t2m'] = climate_data['t2m'] - 273.15 # Convert to Celsius
+    climate_data['tp'] = climate_data['tp']*1_000 # convert from metre into milli-metre
     # climate_data = pd.concat([climate_data, d], axis=0)
     # climate_data.reset_index(drop=True, inplace=True)
 
