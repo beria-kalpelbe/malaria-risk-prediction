@@ -42,7 +42,7 @@ class TemporalTransformer(nn.Module):
 class SpatioTemporalTransformer(nn.Module):
     def __init__(self, cnn_out_channels, d_model, nhead, num_encoder_layers, dim_feedforward, dropout, img_size):
         super(SpatioTemporalTransformer, self).__init__()
-        self.spatial_cnn = SpatialCNN(in_channels=2, out_channels=cnn_out_channels)  # Assuming 2 channels: temp, precip
+        self.spatial_cnn = SpatialCNN(in_channels=6, out_channels=cnn_out_channels)  # Assuming 2 channels: temp, precip
         self.temporal_transformer = TemporalTransformer(
             d_model=d_model, nhead=nhead, num_encoder_layers=num_encoder_layers,
             dim_feedforward=dim_feedforward, dropout=dropout
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     )
 
     # Example input (batch_size, seq_len, channels, height, width)
-    x = torch.randn(8, 12, 2, 64, 64)  # 8 samples, 12 months (time steps), 2 channels (temp, precip), 64x64 map
+    x = torch.randn(8, 12, 6, 64, 64)  # 8 samples, 12 months (time steps), 2 channels (temp, precip), 64x64 map
 
     # Forward pass
     output = model(x)

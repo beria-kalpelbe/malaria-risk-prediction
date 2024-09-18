@@ -3,7 +3,7 @@ library(plm)
 data <- read.csv('../../data/panel_data.csv')
 pdata <- pdata.frame(data, index = c("state", "time"))
 
-coplot(cases ~ time state, type = "l", data = pdata) 
+coplot(cases ~ time | state, type = "l", data = pdata) 
 coplot(cases ~ time | state, type = "b", data = panel)
 
 gmm_model <- pgmm(
